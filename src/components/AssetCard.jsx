@@ -30,7 +30,6 @@ export default function AssetCard({
 
     return (
         <div className="bg-gray-200 p-4 rounded-md">
-            {/* parte superior, la imagen */}
             <div className="text-md">
                 <h4>Tag: {tag}</h4>
                 <h4 className="mb-2">Tipo: {tipo}</h4>
