@@ -6,41 +6,37 @@ import Dropdown from "../components/Dropdown";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import TaskLine from "../components/TaskLine";
+import axios from "axios";
 
 export default function AssetDetails() {
-    const { id } = useParams();
-    const { data, error, isLoading } = apiData(
-        `${import.meta.env.VITE_ENDPOINT_ASSETS}/${id}`
-    );
-    const [dataRx, setDataRx] = useState(data);
-
-    useEffect(() => {
-        setDataRx(data);
-        console.log("act", dataRx);
-    }, [data, dataRx]);
-
     const changeFormat = (d) => {
         if (d) {
             const td = d.split("/");
             return `${td[1]}/${td[0]}/${td[2]}`;
         }
     };
-
+    const status = ["Operativo", "Inspeccionar", "Fuera de servicio"];
+    const [sendBody, setSendBody] = useState({});
+    const [response, setResponse] = useState({});
     const [selectedDate, setSelectedDate] = useState(
         changeFormat(new Date().toLocaleDateString())
     );
     const [task, setTask] = useState("");
-    const [dataTx, setDataTx] = useState({
-        method: "PUT",
-        data: {
-            servicio: [],
-        },
-    });
-
-    const { dataReceived } = apiData(
-        `${import.meta.env.VITE_ENDPOINT_ASSETS}/${id}`,
-        dataTx
+    const { id } = useParams();
+    const { data, error, isLoading } = apiData(
+        `${import.meta.env.VITE_ENDPOINT_ASSETS}/${id}`
     );
+
+    const [dataRx, setDataRx] = useState(data);
+
+    useEffect(() => {
+        if (dataRx.estado === "all") {
+            setDataRx(data);
+        }
+    }, [data, dataRx]);
+
+    if (isLoading) return <p>Loading...</p>;
+    if (error) return <p>Error: {error.message}</p>;
 
     const dataDetails = [
         { label: "Planta: ", value: dataRx.planta },
@@ -49,43 +45,49 @@ export default function AssetDetails() {
         { label: "Año fabricación: ", value: dataRx.anioFabricacion },
     ];
 
-    if (isLoading) return <p>Loading...</p>;
-    if (error) return <p>Error: {error.message}</p>;
-
-    const status = ["Operativo", "Inspeccionar", "Fuera de servicio"];
-
-    const onPostData = () => {
-        console.log(dataRx);
-        if (!dataRx.servicio.fecha) {
-            console.log("no existe");
-            const newData = { ...dataRx };
-            newData.servicio.push({
-                fecha: selectedDate,
-                trabajo: task,
-            });
-
-            setDataRx(newData);
-        } else {
-            console.log("si existe");
-            const newData = {
-                servicio: {
-                    fecha: selectedDate,
-                    trabajo: task,
-                },
-            };
-            setDataRx(newData);
-        }
-
-        // console.log(dataRx);
-        console.log(dataTx);
-        const newData = { ...dataTx };
-        newData.data = { ...dataRx };
-        setDataTx(newData);
-        console.log("Tx", dataTx);
-
+    const resendData = () => {
+        onPostData();
         setSelectedDate(changeFormat(new Date().toLocaleDateString()));
         setTask("");
     };
+
+    const onPostData = async () => {
+        try {
+            setSendBody({
+                servicio: [
+                    ...dataRx.servicio,
+                    { fecha: selectedDate, trabajo: task },
+                ],
+            });
+
+            setResponse(
+                await axios.put(
+                    `${import.meta.env.VITE_ENDPOINT_ASSETS}/${id}`,
+                    sendBody
+                )
+            );
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    const askGet = async () => {
+        try {
+            setDataRx(
+                (
+                    await axios.get(
+                        `${import.meta.env.VITE_ENDPOINT_ASSETS}/${id}`
+                    )
+                ).data
+            );
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    useEffect(() => {
+        askGet();
+    }, [response]);
 
     return (
         <Container>
