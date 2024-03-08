@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import apiData from "../hooks/apiRequest";
 import Container from "../components/Container";
 import Dropdown from "../components/Dropdown";
@@ -87,13 +88,29 @@ export default function AssetDetails() {
 
     useEffect(() => {
         askGet();
-    }, [response]);
+    }, [id]);
+
+    const updateData = () => {
+        askGet;
+    };
 
     return (
         <Container>
             <div>
                 <div className="w-75 mx-auto py-6 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2">
                     <div className="flex items-center justify-center">
+                        {id !== "1" ? (
+                            <div className="flex justify-end items-start h-full">
+                                <Link to={`/assetdetails/${parseInt(id) - 1}`}>
+                                    <button
+                                        className="bg-gray-900 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded me-16"
+                                        onClick={updateData()}
+                                    >
+                                        {"<<"}
+                                    </button>
+                                </Link>
+                            </div>
+                        ) : null}
                         <img
                             src={dataRx.img}
                             alt={`${dataRx.tipo} ${dataRx.tag}`}
@@ -101,7 +118,16 @@ export default function AssetDetails() {
                             height="400px"
                         />
                     </div>
-                    <div className="">
+                    <div>
+                        {id !== "100" ? (
+                            <div className="flex justify-end">
+                                <Link to={`/assetdetails/${parseInt(id) + 1}`}>
+                                    <button className="bg-gray-900 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded relative">
+                                        {">>"}
+                                    </button>
+                                </Link>
+                            </div>
+                        ) : null}
                         <h2 className="text-4xl font-semibold text-center">
                             {dataRx.tipo} {dataRx.tag}
                             <br />
