@@ -20,7 +20,7 @@ export default function AssetGroup({
 
     return (
         <section className="container mx-auto p-4">
-            <div className="mb-3 flex justify-between">
+            <div className="mb-3 flex justify-around">
                 <h2 className="text-xl font-semibold border-b-2 border-gray-900">
                     {groupTitle}
                 </h2>

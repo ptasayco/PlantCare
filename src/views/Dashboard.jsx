@@ -1,6 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import { AssetsContext } from "../context/assetsContext";
 import PieChart from "../components/PieChart";
+import BarChart from "../components/BarChart";
 import Container from "../components/Container";
 import Dropdown from "../components/Dropdown";
 import AlignList from "../components/AlignList";
@@ -41,7 +42,12 @@ export default function Dashboard() {
     const [isPlantSelected, setIsPlantSelected] = useState(false);
     const [zoneList, setZoneList] = useState(filterZone.optList);
     const [isZoneSelected, setIsZoneSelected] = useState(false);
-    const [countAssetStates, setCountAssetStates] = useState([0, 0, 0]);
+    const [countAssetStates, setCountAssetStates] = useState([
+        [0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+    ]);
     const [activeFilters, setActiveFilters] = useState({
         planta: "all",
         zona: "all",
@@ -63,9 +69,38 @@ export default function Dashboard() {
     }, [activeFilters]);
 
     useEffect(() => {
-        // countStates(assets, status);
         if (assets) {
-            setCountAssetStates(countStates(assets, status));
+            let values = [
+                [0, 0, 0],
+                [0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0],
+            ];
+
+            values[0] = countStates(assets, status);
+            values[1] = [
+                ...Array.from(
+                    { length: 5 },
+                    () => Math.floor(Math.random() * (50 - 10 + 1)) + 10
+                ),
+                values[0][0],
+            ];
+            values[2] = [
+                ...Array.from(
+                    { length: 5 },
+                    () => Math.floor(Math.random() * (30 - 20 + 1)) + 20
+                ),
+                values[0][1],
+            ];
+            values[3] = [
+                ...Array.from(
+                    { length: 5 },
+                    () => Math.floor(Math.random() * (10 - 1 + 1)) + 1
+                ),
+                values[0][2],
+            ];
+
+            setCountAssetStates(values);
         }
     }, [assets]);
 
@@ -118,13 +153,13 @@ export default function Dashboard() {
             <h1 className="text-2xl sm:text-2xl md:text-3xl lg:text-5xl mb-10 font-semibold flex justify-center">
                 Dashboard
             </h1>
-            <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 ">
+            <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-5 lg:grid-cols-5 gap-4">
                 <div className="text-left mx-10 mb-10 w-fit">
                     <h2 className="text-xl sm:text-xl lg:text-2xl font-semibold border-b-2 border-gray-900 w-fit">
                         Filtros:
                     </h2>
                     <div className="w-fit">
-                        <div>
+                        <div className="mt-4">
                             <Dropdown
                                 filterName={filterPlant.name}
                                 filterList={filterPlant.optList}
@@ -132,7 +167,7 @@ export default function Dashboard() {
                             ></Dropdown>
                         </div>
                         {isPlantSelected ? (
-                            <div className="w-fit">
+                            <div className="w-fit mt-2">
                                 <Dropdown
                                     filterName={filterZone.name}
                                     filterList={zoneList}
@@ -141,7 +176,7 @@ export default function Dashboard() {
                             </div>
                         ) : null}
                         {isZoneSelected ? (
-                            <div className="w-fit">
+                            <div className="w-fit mt-2">
                                 <Dropdown
                                     filterName={filterType.name}
                                     filterList={filterType.optList}
@@ -152,11 +187,13 @@ export default function Dashboard() {
                         ) : null}
                     </div>
                 </div>
-                <div className="flex justify-center w-2/5">
-                    <PieChart stats={countAssetStates} />
-                </div>
-                <div className="flex justify-center w-2/5">
-                    <PieChart stats={countAssetStates} />
+                <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-96 ">
+                    <div className="mr-10">
+                        <PieChart stats={countAssetStates[0]} />
+                    </div>
+                    <div className="ml-60 mt-16">
+                        <BarChart lineValues={[countAssetStates]} />
+                    </div>
                 </div>
             </div>
             <Container>

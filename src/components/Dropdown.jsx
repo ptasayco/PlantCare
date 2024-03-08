@@ -18,16 +18,16 @@ export default function Dropdown({
     }, [optSelected]);
 
     return (
-        <div className="mt-4 grid grid-cols-7">
+        <div className=" grid grid-cols-4">
             <label
                 htmlFor={filterName}
-                className="text-lg flex items-center w-24"
+                className="text-base flex items-center w-24"
             >
                 {filterName}:
             </label>
             <select
                 id={filterName}
-                className="block p-1 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300 w-44"
+                className="block p-1 mt-1 border border-neutral-950 rounded-md focus:outline-none focus:ring focus:border-blue-300 w-44"
                 onChange={handleSelectChange}
                 value={optSelected}
             >

@@ -5,7 +5,6 @@ import Container from "../components/Container";
 
 export default function InstalledBase() {
     const assets = useContext(AssetsContext).data;
-
     return (
         <Container>
             <AssetGroup assets={assets} />
