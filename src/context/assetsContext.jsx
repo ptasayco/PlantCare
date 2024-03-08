@@ -8,13 +8,6 @@ const AssetsContextProvider = (props) => {
         import.meta.env.VITE_ENDPOINT_ASSETS
     );
 
-    if (isLoading) {
-        return <p>Loading...</p>;
-    }
-    if (error) {
-        return <p>Error: {error}</p>;
-    }
-
     return (
         <AssetsContext.Provider value={{ data }}>
             {props.children}
