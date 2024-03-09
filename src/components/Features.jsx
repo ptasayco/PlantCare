@@ -64,18 +64,6 @@ export default function Features() {
     };
 
     return (
-        // <div className="slider-container">
-        //     <Slider {...settings}>
-        //         {featuresContent.map((content) => (
-        //             <div key={content.id}>
-        //                 <section className="flex flex-wrap justify-center gap-4">
-        //                     <FeatureCard content={content} key={content.id} />
-        //                 </section>
-        //             </div>
-        //         ))}
-        //     </Slider>
-        // </div>
-
         <div className="flex flex-wrap justify-center gap-4">
             {featuresContent.map((content) => (
                 <div key={content.id}>

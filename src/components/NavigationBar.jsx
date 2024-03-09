@@ -40,19 +40,6 @@ export default function NavigationBar() {
                                     {/* itemsDiv*/}
                                     <div className="hidden sm:ml-6 sm:block">
                                         <div className="flex space-x-4">
-                                            {/* Items */}
-                                            {/* si user existe (si el usuario está logeado) segun AuthContext, mostrará el link
-                                            Carrito, caso contrario no muestra nada*/}
-                                            {/* {user ? (
-                                                <Link
-                                                    to="/checkout"
-                                                    className="text-gray-300 hover:bg-gray-700 hover:text-white,
-                          rounded-md px-3 py-2 text-sm font-medium"
-                                                >
-                                                    Carrito
-                                                </Link>
-                                            ) : null} */}
-
                                             <Link
                                                 to="/dashboard"
                                                 className="text-gray-300 hover:bg-gray-700 hover:text-white,
@@ -70,7 +57,6 @@ export default function NavigationBar() {
                                         </div>
                                     </div>
                                 </div>
-                                {/* derecha */}
                                 <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                                     {/* user */}
                                     <Menu as="div" className="relative ml-3">
@@ -116,7 +102,7 @@ export default function NavigationBar() {
                                     className="text-gray-300 hover:bg-gray-700 hover:text-white,
                           rounded-md px-3 py-2 text-sm font-medium block"
                                 >
-                                    Dashboard
+                                    asdas
                                 </Link>
                                 <Link
                                     to="/installedbase"

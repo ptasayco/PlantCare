@@ -191,7 +191,7 @@ export default function Dashboard() {
                     <div className="mr-10">
                         <PieChart stats={countAssetStates[0]} />
                     </div>
-                    <div className="ml-60 mt-16">
+                    <div className="ml-48 mt-16">
                         <BarChart lineValues={[countAssetStates]} />
                     </div>
                 </div>

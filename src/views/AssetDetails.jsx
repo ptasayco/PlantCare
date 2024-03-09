@@ -16,12 +16,12 @@ export default function AssetDetails() {
             return `${td[1]}/${td[0]}/${td[2]}`;
         }
     };
-    const status = ["Operativo", "Inspeccionar", "Fuera de servicio"];
-    const [sendBody, setSendBody] = useState({});
-    const [response, setResponse] = useState({});
     const [selectedDate, setSelectedDate] = useState(
         changeFormat(new Date().toLocaleDateString())
     );
+    const status = ["Operativo", "Inspeccionar", "Fuera de servicio"];
+    const [sendBody, setSendBody] = useState({});
+    const [response, setResponse] = useState({});
     const [task, setTask] = useState("");
     const { id } = useParams();
     const { data, error, isLoading } = apiData(
@@ -90,9 +90,11 @@ export default function AssetDetails() {
         askGet();
     }, [id]);
 
-    const updateData = () => {
-        askGet;
-    };
+    useEffect(() => {
+        if (response.data) {
+            askGet();
+        }
+    }, [response]);
 
     return (
         <Container>
@@ -102,10 +104,7 @@ export default function AssetDetails() {
                         {id !== "1" ? (
                             <div className="flex justify-end items-start h-full">
                                 <Link to={`/assetdetails/${parseInt(id) - 1}`}>
-                                    <button
-                                        className="bg-gray-900 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded me-16"
-                                        onClick={updateData()}
-                                    >
+                                    <button className="bg-gray-900 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded me-16">
                                         {"<<"}
                                     </button>
                                 </Link>
